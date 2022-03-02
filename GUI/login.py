@@ -2,6 +2,7 @@ import logging
 import Tkinter as tk
 from exceptions import MissingDataException
 from error import ErrorFrame
+from config import getConfiguration
 
 auth_protocols = ['MD5', 'SHA']
 priv_protocols = ['DES', 'AES']
@@ -19,13 +20,13 @@ class LoginFrame(tk.Frame):
     def initialize(self, connect_function):
         self.username_label = tk.Label(self.parent, text='Username')
         self.username_label.grid(row=0, column=0)
-        self.username = tk.StringVar()
+        self.username = tk.StringVar(value=getConfiguration('default_username'))
         self.username_entry = tk.Entry(self.parent, textvariable=self.username)
         self.username_entry.grid(row=0, column=1)
         
         self.password_label = tk.Label(self.parent, text='Password')
         self.password_label.grid(row=1, column=0)
-        self.password = tk.StringVar()
+        self.password = tk.StringVar(value=getConfiguration('default_password'))
         self.password_entry = tk.Entry(self.parent, textvariable=self.password)
         self.password_entry.grid(row=1, column=1)
 

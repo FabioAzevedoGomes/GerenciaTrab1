@@ -1,5 +1,7 @@
 {
     "hostname": "localhost",
     "version": 3,
-    "password_default": "The Net-SNMP Demo Password"
+    "monitor_delay_millis": 1000,
+    "default_username": "MD5User",
+    "default_password": "The Net-SNMP Demo Password"
 }

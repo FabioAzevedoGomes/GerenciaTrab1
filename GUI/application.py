@@ -50,47 +50,44 @@ class ApplicationFrame(tk.Frame):
 
         self.data[interface] = {}
 
-        num_rows = 0
+        self.num_rows_tab = 0
         
-        self.add_standalone_data_row('MAC Address', 'mac_address', interface, frame, num_rows)
-        num_rows += 1
-
-        self.add_standalone_data_row('Bandwidth (bit/s)', 'speed', interface, frame, num_rows)
-        num_rows += 1
-        
-        self.add_in_out_data_row('Total octets', 'in_octets_total' ,'out_octets_total', interface, frame, num_rows)
-        num_rows += 1
-
-        self.add_in_out_data_row('Packets with error', 'in_errors_packets' ,'out_errors_packets', interface, frame, num_rows)
-        num_rows += 1
-
-        self.add_in_out_data_row('Discarded packets', 'in_discards_packets' ,'out_discards_packets', interface, frame, num_rows)
-        num_rows += 1
+        self.add_standalone_data_row('MAC Address', 'mac_address', interface, frame)
+        self.add_standalone_data_row('Bandwidth (bit/s)', 'speed', interface, frame)
+        self.add_in_out_data_row('Current speed (bit/s)', 'in_speed_est', 'out_speed_est', interface, frame)
+        self.add_in_out_data_row('Utilization %', 'in_utilization', 'out_utilization', interface, frame)
+        self.add_in_out_data_row('Total octets', 'in_octets_total' ,'out_octets_total', interface, frame)    
+        self.add_in_out_data_row('Packets with error', 'in_errors_packets' ,'out_errors_packets', interface, frame)    
+        self.add_in_out_data_row('Discarded packets', 'in_discards_packets' ,'out_discards_packets', interface, frame)
     
         self.tab_parent.add(self.tabs[-1], text=interface)
 
-    def add_standalone_data_row(self, label, var_name, interface, frame, row):
+    def add_standalone_data_row(self, label, var_name, interface, frame):
         data_label = tk.Label(frame, text=label)
-        data_label.grid(row=row, column=0)
+        data_label.grid(row=self.num_rows_tab, column=0)
         
         self.data[interface][var_name] = tk.StringVar()
         data = tk.Entry(frame, textvariable = self.data[interface][var_name])
-        data.grid(row=row, column=1)
+        data.grid(row=self.num_rows_tab, column=1)
         data.config(state='readonly')
+        
+        self.num_rows_tab += 1
 
-    def add_in_out_data_row(self, label, in_var_name, out_var_name, interface, frame, row):
+    def add_in_out_data_row(self, label, in_var_name, out_var_name, interface, frame):
         in_data_label = tk.Label(frame, text='[IN] ' + label)
-        in_data_label.grid(row=row, column=0)
+        in_data_label.grid(row=self.num_rows_tab, column=0)
         
         self.data[interface][in_var_name] = tk.StringVar()
         in_data = tk.Entry(frame, textvariable = self.data[interface][in_var_name])
-        in_data.grid(row=row, column=1)
+        in_data.grid(row=self.num_rows_tab, column=1)
         in_data.config(state='readonly')
 
         out_data_label = tk.Label(frame, text='[OUT] ' + label)
-        out_data_label.grid(row=row, column=2)
+        out_data_label.grid(row=self.num_rows_tab, column=2)
         
         self.data[interface][out_var_name] = tk.StringVar()
         out_data = tk.Entry(frame, textvariable = self.data[interface][out_var_name])
-        out_data.grid(row=row, column=3)
+        out_data.grid(row=self.num_rows_tab, column=3)
         out_data.config(state='readonly')
+        
+        self.num_rows_tab += 1

@@ -7,9 +7,9 @@ class ConnectStep(Step):
     """The application connection step"""
     
     def execute(self, data=None):
-        logging.info('Login information: ' + str(data))
+        #logging.info('Login information: ' + str(data))
         
-        if 'priv_protocol' in data:
+        if 'privacy_protocol' in data:
             connector = PrivConnector()
         else:
             connector = NoPrivConnector()

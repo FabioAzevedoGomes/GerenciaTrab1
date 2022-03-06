@@ -1,6 +1,8 @@
 import Tkinter as tk
 import ttk
 
+statuses = ['1', '2', '3']
+
 class ApplicationFrame(tk.Frame):
     """The main application frame"""
     
@@ -15,11 +17,12 @@ class ApplicationFrame(tk.Frame):
     def initialize(self, session):
         self.tab_parent = ttk.Notebook(self.parent)
         self.tabs = []
+        self.session = session
 
         self.interfaces = self.get_interfaces(session)
 
-        for interface in self.interfaces:
-            self.create_tab(interface)
+        for i in range(len(self.interfaces)):
+            self.create_tab(i + 1, self.interfaces[i])
         
         self.tab_parent.pack(expand=1, fill='both')
 
@@ -37,14 +40,10 @@ class ApplicationFrame(tk.Frame):
         if_descs = []
         for entry in if_table:
             if_descs.append(entry.value)
-        
-        if_table = session.walk('ifPhysAddress')
-        for entry in if_table:
-            pass
 
         return if_descs    
 
-    def create_tab(self, interface):
+    def create_tab(self, index, interface):
         self.tabs.append(tk.Frame(self.tab_parent))
         frame = self.tabs[-1]
 
@@ -53,6 +52,8 @@ class ApplicationFrame(tk.Frame):
         self.num_rows_tab = 0
         
         self.add_standalone_data_row('MAC Address', 'mac_address', interface, frame)
+        self.add_standalone_data_row('Operational Status', 'oper_status', interface, frame)
+        self.add_standalone_data_row('Admin Status', 'admin_status', interface, frame)
         self.add_standalone_data_row('Bandwidth (bit/s)', 'speed', interface, frame)
         self.add_in_out_data_row('Current speed (bit/s)', 'in_speed_est', 'out_speed_est', interface, frame)
         self.add_in_out_data_row('Utilization %', 'in_utilization', 'out_utilization', interface, frame)
@@ -70,7 +71,7 @@ class ApplicationFrame(tk.Frame):
         data = tk.Entry(frame, textvariable = self.data[interface][var_name])
         data.grid(row=self.num_rows_tab, column=1)
         data.config(state='readonly')
-        
+
         self.num_rows_tab += 1
 
     def add_in_out_data_row(self, label, in_var_name, out_var_name, interface, frame):

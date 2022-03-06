@@ -14,10 +14,10 @@ class PrivConnector(Connector):
                                auth_password=credentials['password'],
                                privacy_protocol=credentials['privacy_protocol'],
                                privacy_password=credentials['privacy_password'])
-        
+    
         if session.error_string:
             raise Exception('Unable to connect to ' + getConfiguration('hostname') + ': ' + session.error_string)
         else:
-            logging.info('Connected to ' + session.get('sysName.0'))
+            logging.info('Connected privately to ' + session.get('sysName.0').value)
 
         return session

@@ -39,6 +39,18 @@ class ApplicationStep(Step):
             speed = speeds[i]
             self.application_frame.data[self.application_frame.interfaces[i]]['speed'].set(str(int(speed.value)))
 
+        # Get interface operational status
+        oper_statuses = self.session.walk('ifOperStatus')
+        for i in range(len(self.application_frame.interfaces)):
+            status = oper_statuses[i].value
+            self.application_frame.data[self.application_frame.interfaces[i]]['oper_status'].set(str(int(status)))
+
+        # Get interface operational status
+        admin_stauses = self.session.walk('ifAdminStatus')
+        for i in range(len(self.application_frame.interfaces)):
+            status = admin_stauses[i].value
+            self.application_frame.data[self.application_frame.interfaces[i]]['admin_status'].set(str(int(status)))
+
         countBulk = self.session.get_bulk(['ifInOctets', 'ifOutOctets'], 0, len(self.application_frame.interfaces))
 
         # Get current interface speeds

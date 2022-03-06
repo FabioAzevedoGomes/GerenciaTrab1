@@ -16,6 +16,6 @@ class NoPrivConnector(Connector):
         if session.error_string:
             raise Exception('Unable to connect to ' + getConfiguration('hostname') + ': ' + session.error_string)
         else:
-            logging.info(session.get('sysName.0'))
+            logging.info('Connected without privacy to ' + session.get('sysName.0').value)
 
         return session
